@@ -1,15 +1,57 @@
-Source: template-repository
-Section: unknown
+Source: node-basic-auth
+Section: javascript
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders:
+ Harley Swick <fancycade@protonmail.com>,
+Testsuite: autopkgtest-pkg-nodejs
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-sequence-nodejs,
+ mocha <!nocheck>,
+ node-safe-buffer <!nocheck>,
+Standards-Version: 4.6.1
+Homepage: https://github.com/jshttp/basic-auth#readme
+Vcs-Git: https://salsa.debian.org/js-team/node-basic-auth.git
+Vcs-Browser: https://salsa.debian.org/js-team/node-basic-auth
+Rules-Requires-Root: no
 
-Package: template-repository
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Package: node-basic-auth
+Architecture: all
+Depends:
+ node-safe-buffer,
+ ${misc:Depends},
+Multi-Arch: foreign
+Description: Generic basic auth Authorization header field parser for whatever
+ nodejs basic auth parser module. This package is used as a dependency for node
+ web applications that require a simple authentication mechanism.
+ .
+ API
+ .
+ var auth = require('basic-auth')
+ .
+ auth(req)
+ .
+ Get the basic auth credentials from the given request. The Authorization header
+ is parsed and if the header is invalid, undefined is returned, otherwise an
+ object with name and pass properties.
+ .
+ auth.parse(string)
+ .
+ Parse a basic auth authorization header string. This will return an object with
+ name and pass properties, or undefined if the string is invalid.
+ .
+ Example
+ .
+ Pass a Node.js request object to the module export. If parsing fails undefined
+ is returned, otherwise an object with .name and .pass.
+ .
+ var auth = require('basic-auth')
+ var user = auth(req)
+ // => { name: 'something', pass: 'whatever' }
+ .
+ A header string from any other location can also be parsed with auth.parse,
+ for example a Proxy-Authorization header:
+ .
+ var auth = require('basic-auth')
+ var user = auth.parse(req.getHeader('Proxy-Authorization'))

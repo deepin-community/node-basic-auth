@@ -1,0 +1,5 @@
+version=4
+opts=\
+dversionmangle=auto,\
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-basic-auth-$1/ \
+ https://github.com/jshttp/basic-auth/tags .*/archive/.*/v?([\d\.]+).tar.gz
